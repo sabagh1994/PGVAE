@@ -1,7 +1,6 @@
 import torch
 from tch_utils import BMLP
 
-
 # for sampling
 from scipy.stats import chi2
 
