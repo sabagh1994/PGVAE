@@ -1,2 +1,2 @@
-# Property-Guided Variational Auto-Encoder
+# Property-Guided Variational Auto-Encoder (PGVAE)
 PGVAE
