@@ -13,10 +13,9 @@ class Oracle_protein_gt():
             the returned score is zero
             
             orc_path examples:
-                "gb_gt" : "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/CLADE/GB1/GB1.txt"
-                "phoq_gt": "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/CLADE/PhoQ/PhoQ.txt"
-                "his7": "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/DeepSequence/" \
-                        "HIS7_yeast/HIS7_YEAST_Kondrashov2017.txt"
+                "gb_gt" : "protein_datasets_bench/CLADE/GB1/GB1.txt"
+                "phoq_gt": "protein_datasets_bench/CLADE/PhoQ/PhoQ.txt"
+                "his7": "protein_datasets_bench/DeepSequence/HIS7_yeast/HIS7_YEAST_Kondrashov2017.txt"
         """
 
         self.name = name
