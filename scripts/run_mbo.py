@@ -454,9 +454,10 @@ for cfg_it, cfg in enumerate(cfgs):
                 max_tr_y = None
                 if method_name == "cem-pi":
                     y_ds = ds.ds["y"]
-                    assert y_ds.shape == (ns, xs)
+                    ns_tr, xs_tr, *xd_tr = x_ds.shape
+                    assert y_ds.shape == (ns_tr, xs_tr)
                     y_tr = y_ds*tr_unq_mask
-                    assert y_tr.shape == (ns, xs)
+                    assert y_tr.shape == (ns_tr, xs_tr)
                     max_tr_y, _ = torch.max(y_tr, dim=-1)
                     assert max_tr_y.shape == (n_seeds,)
 
