@@ -245,13 +245,6 @@ def sample_comprehensive(n_samples, encoder, decoder,
         (n_seeds, xs, *xd) = x.shape
         mu_logp_prior = compute_logpz(x, encoder)
         
-        # TODO:
-        # multiply x by a mask for unique elements where 
-        # unique elements get 1 and repetitive ones get zero
-        # multiply mu_logp_prior by a mask for unique elements 
-        # where unique elements get the original mu_logp_prior
-        # whereas the repetitive ones get very negative logp
-        
         assert mu_logp_prior.shape == (n_seeds, xs)
         # assign very low probability to repetitive samples
         assert tr_unq_mask.dtype == torch.bool
