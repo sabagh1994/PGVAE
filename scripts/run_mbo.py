@@ -34,10 +34,12 @@ dss = run_config_dict["ds_names"] # ["ds1.npz", "ds2.npz"] datasets
 dss = [f"{ds_rootdir}/{ds}" for ds in dss]
 
 method_names = run_config_dict["method_names"] #["pgvae", "dbas", "cbas", "rwr", "cem-pi"]
-weighted_opt_firststeps = run_config_dict["weighted_opt_firststeps"] #[False]
-n_samples_gens = run_config_dict["n_samples_gens"] #[100, 200], toy_pinn: [500, 250] #toy_gmm1d: [100, 200]
+weighted_opt_firststeps = run_config_dict.get("weighted_opt_firststeps", [False]) #[False]
+n_samples_gens = run_config_dict.get("n_samples_gens", [100]) #[100, 200], toy_pinn: [500, 250] #toy_gmm1d: [100, 200]
 savedir = run_config_dict["savedir"] #"results_test"
 vae_type = run_config_dict["vae_type"] #"mlp" # later "cnn" ...
+n_seeds = run_config_dict.get("n_seeds", 1) #50
+mbo_steps = run_config_dict.get("mbo_steps", 1) # mbo rounds
 
 # generating the configs
 cfg_lists = [dss, method_names, weighted_opt_firststeps, n_samples_gens]
@@ -67,7 +69,6 @@ for cfg_it, cfg in enumerate(cfgs):
     ########### Constructing the Batch RNG Object ###########
     #########################################################
 
-    n_seeds = 50
     seed_start, seed_step = 10000, 200
     seed_end = seed_start + n_seeds*seed_step
     seed_arr = np.arange(seed_start, seed_end, seed_step)
@@ -159,7 +160,6 @@ for cfg_it, cfg in enumerate(cfgs):
     temperature = 5
 
     # training loop settings
-    mbo_steps = 1 # mbo rounds
     global_iter = 0 # training and mbo steps combined
     epochs = 1000
 

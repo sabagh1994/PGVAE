@@ -6,5 +6,7 @@
     "weighted_opt_firststeps": [false],
     "n_samples_gens": [100],
     "savedir": "sample_results",
-    "vae_type": "mlp"
+    "vae_type": "mlp",
+    "n_seeds": 10,
+    "mbo_steps": 10
 }
