@@ -338,7 +338,7 @@ def relationship_constraint_latent(x, y, encoder, temperature):
 
     constraint = torch.sum(logpmudiff_ydiff_diff**2, dim=(-1, -2))
     assert constraint.shape == (n_seeds,)
-    norm_term = xs*xs + xs # elements of diagonal should be counted twice
+    norm_term = xs*xs + xs
     constraint = constraint/norm_term
 
     return constraint
@@ -403,7 +403,7 @@ def loss_function(recons, x, y, mu, log_var, encoder, criterion, method_name,
     if method_name == "pgvae":
         recons_loss = torch.mean(recons_loss, dim=-1)
         assert recons_loss.shape == (n_seeds,)
-        mu_weight = kwargs.get("mu_weight", kld_weight)
+        mu_weight = kld_weight
         # separating variance and mu in the kl loss
         var_term = 1 + log_var - log_var.exp()
         assert var_term.shape == (n_seeds, xs, ldim)

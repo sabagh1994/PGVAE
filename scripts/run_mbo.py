@@ -23,7 +23,7 @@ if use_argparse:
     args = parser.parse_args()
     run_config = args.run_config
 else:
-    run_config = "configs/run_config.json"
+    run_config = "../configs/run_config.json"
     
     
 with open(run_config) as f:
@@ -188,7 +188,6 @@ for cfg_it, cfg in enumerate(cfgs):
     ###################################
 
     kld_weight = 0.01
-    mu_weight = 0.01
     rel_weight = 1. if method_name == "pgvae" else 0.
 
     #######################
@@ -330,8 +329,8 @@ for cfg_it, cfg in enumerate(cfgs):
             (recons, mub, log_varb) = forward(xb_in, encoder, decoder, brng)
             loss_dict = loss_function(recons, xb_in, yb, mub, log_varb, encoder, 
                                       criterion, method_name, temperature, weights=wb_optm,
-                                      kld_weight=kld_weight, mu_weight=mu_weight, 
-                                      rel_weight=rel_weight, seq_len=seq_len, num_cls=num_cls)
+                                      kld_weight=kld_weight, rel_weight=rel_weight, 
+                                      seq_len=seq_len, num_cls=num_cls)
 
             loss, kld_loss = loss_dict['loss'], loss_dict['KLD']
             RELC, RCL = loss_dict['RELC'], loss_dict['RCL']
