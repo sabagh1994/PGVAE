@@ -1,11 +1,11 @@
 {
     "description": "sample config file to run MBO with pgvae or other methods",
-    "ds_rootdir": "sample_datasets",
+    "ds_rootdir": "sample_trainset",
     "ds_names": ["ds0.npz"],
     "method_names": ["pgvae"],
     "weighted_opt_firststeps": [false],
     "n_samples_gens": [100],
-    "savedir": "sample_results",
+    "savedir": "results",
     "vae_type": "mlp",
     "n_seeds": 10,
     "mbo_steps": 10

@@ -30,15 +30,15 @@ with open(run_config) as f:
     run_config_dict = json.load(f)
     
 ds_rootdir = run_config_dict["ds_rootdir"]
-dss = run_config_dict["ds_names"] # ["ds1.npz", "ds2.npz"] datasets
+dss = run_config_dict["ds_names"] # ["ds1.npz", "ds2.npz"]
 dss = [f"{ds_rootdir}/{ds}" for ds in dss]
 
 method_names = run_config_dict["method_names"] #["pgvae", "dbas", "cbas", "rwr", "cem-pi"]
 weighted_opt_firststeps = run_config_dict.get("weighted_opt_firststeps", [False]) #[False]
-n_samples_gens = run_config_dict.get("n_samples_gens", [100]) #[100, 200], toy_pinn: [500, 250] #toy_gmm1d: [100, 200]
-savedir = run_config_dict["savedir"] #"results_test"
+n_samples_gens = run_config_dict.get("n_samples_gens", [100]) #gmm: [100, 200]
+savedir = run_config_dict["savedir"] #"results"
 vae_type = run_config_dict["vae_type"] #"mlp" # later "cnn" ...
-n_seeds = run_config_dict.get("n_seeds", 1) #50
+n_seeds = run_config_dict.get("n_seeds", 1) # 20
 mbo_steps = run_config_dict.get("mbo_steps", 1) # mbo rounds
 
 # generating the configs
@@ -98,10 +98,10 @@ for cfg_it, cfg in enumerate(cfgs):
     data_spec = np.load(datadir, allow_pickle=True)
     orc_spec = data_spec["orc_spec"].reshape(-1)[0] # fix this later
     print("Oracle Specs\n", orc_spec)
-    data_type = orc_spec["data_type"] # "toy", "image", "protein", "pinn_toy"
+    data_type = orc_spec["data_type"] # "image", "protein", "pinn", "gmm"
     criterion = "ce" if data_type == "protein" else "mse"
 
-    if data_type in ["protein", "toy", "toy_pinn", "toy_gmm1d"]:
+    if data_type in ["protein", "pinn", "gmm"]:
         # protein dataset example
         #os.makedirs("datasets_test", exist_ok=True)
         #protein_list = ["ABCD", "GEFD", "EEAA", "GGAF", "CGAF", "NNPA"]*6
@@ -127,9 +127,8 @@ for cfg_it, cfg in enumerate(cfgs):
     ##############################################
 
     ns, nds, *rds = ds.ds["x"].shape
-    ldim_dict = {"protein": 20, "toy": 2, "toy_gmm1d": 2, "toy_pinn": 10} 
-    mlp_hdim_dict = {"protein": [64], "toy": [64, 64], 
-                     "toy_gmm1d": [64, 64], "toy_pinn": [64]}
+    ldim_dict = {"protein": 20, "gmm": 2, "pinn": 10} 
+    mlp_hdim_dict = {"protein": [64], "gmm": [64, 64], "pinn": [64]}
     ldim = ldim_dict[data_type] # shared among all vae type
     if vae_type == "mlp":
         indim = np.prod(rds)
@@ -153,7 +152,7 @@ for cfg_it, cfg in enumerate(cfgs):
     ###################################
 
     lr = 0.001
-    batch_size = 256 if data_type in ["protein", "toy_pinn"] else 128
+    batch_size = 256 if data_type in ["protein", "pinn"] else 128
     sample_strategy = "det"
     criterion = "ce" if data_type == "protein" else "mse"
     optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr)
@@ -202,7 +201,7 @@ for cfg_it, cfg in enumerate(cfgs):
         print(f"load oracle from {orc_path}")
         orc = Oracle_protein_gt(orc_path=orc_path, seq_len=seq_len, 
                                 num_cls=num_cls, device=tch_device, name=ds_name)
-    elif data_type in ["toy", "toy_gmm1d"]:
+    elif data_type == "gmm":
         from oracles import Oracle_gmm
         mu_2nd = orc_spec["mu_2nd"] # [4, ..., 30]
         mu_1st = orc_spec["mu_1st"]
@@ -222,9 +221,9 @@ for cfg_it, cfg in enumerate(cfgs):
         assert weights.shape == (n_gmm,)
 
         orc = Oracle_gmm(mus=mus, sigmas=sigmas, weights=weights)
-    elif data_type == "toy_pinn":
+    elif data_type == "pinn":
         from oracles import Oracle_pinn
-        orc_path = "../datasets_test/pinn/01_poisson.npz"
+        orc_path = "../datasets/pinn_poisson.npz"
         orc = Oracle_pinn(orc_path, tch_dtype, tch_device)
     else:
         assert NotImplementedError
@@ -532,3 +531,12 @@ for cfg_it, cfg in enumerate(cfgs):
             else:
                 raise NotImplementedError
             optimizer = torch.optim.Adam(list(encoder.parameters()) + list(decoder.parameters()), lr)
+            
+            
+        # save the results
+        save_dict = dict(orc_spec=orc_spec, method_name=method_name, 
+                         datadir=datadir, n_samples_gen=n_samples_gen, 
+                         weighted_opt_firststep=weighted_opt_firststep, 
+                         cfg_it=cfg_it)
+        os.makedirs(f"{savedir}/{ds_name}", exist_ok=True)
+        save_ds(ds.dsall, f"{savedir}/{ds_name}/rs{cfg_it}.pt", **save_dict)
