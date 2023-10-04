@@ -13,9 +13,10 @@ class Oracle_protein_gt():
             the returned score is zero
             
             orc_path examples:
-                "gb_gt" : "protein_datasets_bench/CLADE/GB1/GB1.txt"
-                "phoq_gt": "protein_datasets_bench/CLADE/PhoQ/PhoQ.txt"
-                "his7": "protein_datasets_bench/DeepSequence/HIS7_yeast/HIS7_YEAST_Kondrashov2017.txt"
+                "gb_gt" : "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/CLADE/GB1/GB1.txt"
+                "phoq_gt": "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/CLADE/PhoQ/PhoQ.txt"
+                "his7": "/home/sglhs/Projects/MBO_meta_epiAmb/protein_datasets_bench/DeepSequence/" \
+                        "HIS7_yeast/HIS7_YEAST_Kondrashov2017.txt"
         """
 
         self.name = name
@@ -30,7 +31,8 @@ class Oracle_protein_gt():
         # normalizing oracle scores
         df_orc_gt["score"] = df_orc_gt["score"]/max(df_orc_gt["score"])
         df_orc_gt.index = df_orc_gt["sequence"]
-        self.orc = df_orc_gt
+        seq2scr = {row['sequence']:row['score'] for _, row in df_orc_gt.iterrows()}
+        self.orc = seq2scr
 
     def __call__(self, x):
         n_seeds, xs, *xd = x.shape
@@ -45,25 +47,9 @@ class Oracle_protein_gt():
         aa_seqs = ["".join(aa_seq) for aa_seq in aa_arr]
         assert len(aa_seqs) == n_seeds*xs
         
-        df_aa = pd.DataFrame(aa_seqs, columns=["sequence"])
-        df_aa["score"] = 0.
-        
-        df_orc = self.orc
-        comm_seqs = set(df_aa["sequence"]) & set(df_orc["sequence"])
-        df_orc_results = df_aa[df_aa["sequence"].isin(comm_seqs)]
-        
-        df_orc_results["score"] = df_orc.loc[df_orc_results["sequence"]]["score"].values
-        seq_diff = set(df_aa["sequence"]).difference(comm_seqs)
-        if len(seq_diff) != 0:
-            df_xt = df_aa[df_aa["sequence"].isin(seq_diff)]
-            df_orc_results = pd.concat((df_orc_results, df_xt))
-            
-        assert len(df_orc_results["sequence"]) == n_seeds*xs
-        
-        x_raw = df_orc_results["sequence"].values
-        x_raw = x_raw.reshape((n_seeds, xs))
-        y = df_orc_results["score"].values
+        y = np.array([self.orc.get(s, 0.0) for s in aa_seqs])
         y = y.reshape((n_seeds, xs))
+        x_raw = np.array(aa_seqs).reshape((n_seeds, xs))
         orc_dict = {"x_raw": x_raw, "y": y}
         
         return orc_dict

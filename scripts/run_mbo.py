@@ -76,7 +76,7 @@ for cfg_it, cfg in enumerate(cfgs):
                     device=tch_device, dtype=tch_dtype,
                     unif_cache_cols=1_000_000,
                     norm_cache_cols=5_000_000)
-
+    brng.seed(seed_arr)
 
     ##############################################
     ########### Constructing the Dataset #########
