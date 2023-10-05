@@ -1,7 +1,7 @@
 # Robust Model-Based Optimization for Challenging Fitness Landscapes
 
-This repository contains the implementation for <ins>P</ins>roperty-<ins>P</ins>rioritized <ins>G</ins>eneraive <ins>V</ins>ariational <ins>A</ins>uto <ins>E</ins>ncoder (PPGVAE). \
-Model-based optimization with PPGVAE robustly finds improved samples regardless of 1) the imbalance between low- and high-fitness training samples, and 2) the extent of their separation in the design space. Details of our comprehensive benchmark are covered in the following. 
+This repository contains the implementation for <ins>P</ins>roperty-<ins>P</ins>rioritized <ins>G</ins>eneraive <ins>V</ins>ariational <ins>A</ins>uto <ins>E</ins>ncoder (PPGVAE).
+Model-based optimization with PPGVAE robustly finds improved samples regardless of 1) the imbalance between low- and high-fitness training samples, and 2) the extent of their separation in the design space. MBO with our PPGVAE can be used for both discrete and continuous design spaces. Details of our comprehensive benchmark are covered in the following. 
 
 <details open>
 <summary><h2>Guide to MBO with PPGVAE</h2></summary>
@@ -40,7 +40,10 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    Navigate to `notebooks` folder and run the jupyter notebook `ds_generator.ipynb`. This will create,
    
     1. Train sets for semi-synthetic GB1 and PhoQ, AAV, PINN and GMM benchamrk tasks, at varying imbalance ratios and separation levels.
-    2. Oracles used for protein benchmark tasks. 
+    2. Oracles used for protein benchmark tasks.
+   Oracles will be stored in `oracles` directory, and train sets will be stored at a separate folder for each benchmark task in `sample_trainset` directory.
+   Note that GMM and PINN won't have any oracles stored. GMM oracle can be constructed with its parameter specification which is stored within each instance of
+   train set, e.g., `sample_trainset/gmm/ds0.npz`. PINN oracle is generated from `datasets/pinn_poisson.npz` when its instance is created in `scripts/run_mbo.py` script.
     
     </details>
 
