@@ -51,3 +51,55 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
     
     </details>
 
++  <details>
+   <summary><strong>Running MBO</strong></summary>
+   
+   To perform MBO, one config file is needed. An example of the config file is included in `configs/run_config.json`. Read **"Running Configuration"** for the
+   description of each field in the config file. To run MBO with the example config file, execute
+   
+      ```bash
+      python scripts/run_mbo.py --run_config configs/run_config.json &> log_mbo
+      ```
+   This runs 10 MBO steps using PPGVAE on the example GMM train set located at `sample_trainset/ds0.npz`.
+    </details>
+
+</details>
+
+<details>
+<summary><h2>Running Configuration</h2></summary>
+
++ <details open>
+  <summary><strong>Example</strong></summary>
+   
+   An example of the configuration file to `configs/run_config.json` is,
+   ```json
+   {
+    "description": "settings for preprocessing (e.g. transformation), input and output directories.",
+    "transformation": "log",
+    "marker_type": "all",
+    "naive_marker_FC": 2.0,
+    "marker_dir": null,
+    "normalization": "mean",
+    "ref_sig_dir": "./input/signatures/pancreas/Baron/Baron",
+    "org_sig_dir": null,
+    "mix_dir": "./input/mixtures/pancreas/emtab_d",
+    "org_prop_dir": null,
+    "outdir": "./results/emtabd/Baron"
+   }
+   ```
+   </details>
+ 
++ <details>
+  <summary><strong>Description of the Arguments</strong></summary>
+   
+   * `"description"` is the notes about the configuration file or whatever notes you want to keep for the configuration you are using.
+   
+   * `"transformation"` is the type of transformation applied to the reference signatures and bulk expression profiles as a preprocessing step
+       before running BEDwARS. **This argument should be set to `"log"`**. The current version of the code does not support other transformations. 
+       All the benchmarking experiments used "log" transformation.
+
+   
+   </details>
+   
+</details>
+
