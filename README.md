@@ -110,10 +110,11 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 <details>
 <summary><h2>Train Set and Output Format</h2></summary>
-   
-+ <details open>
+
++ <details>
   <summary><strong>Train Set Format</strong></summary>
-    Train sets are stored in `*.npz` format. Each file consists of three fields `x`, `y`, and `orc_spec`. Both `x` and `y` are numpy arrays containing the samples from the design space and their associated properties.
+   
+   Train sets are in `*.npz` format. Each file consists of three fields `x`, `y`, and `orc_spec`. Both `x` and `y` are numpy arrays containing the samples from the design space and their associated properties.
   </details>
    
 + <details>
