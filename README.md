@@ -72,7 +72,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 + <details open>
   <summary><strong>Example</strong></summary>
    
-   An example of the configuration file to `configs/run_config.json` is,
+   An example of the configuration file `configs/run_config.json` is,
    ```json
    {
        "description": "sample config file to run MBO with ppgvae or other methods",
@@ -95,13 +95,13 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    * `"description"` is the notes about the configuration file or whatever notes you want to keep for the configuration you are using.
    * `"ds_rootdir"` the root directory containing the train sets.
    * `"ds_names"` is a list containing the file names for the train sets.
-   * `"method_names"` is a list containing the name of the methods, e.g., "pgvae", "rwr", "cem-pi", "dbas", "cbas"
+   * `"method_names"` is a list containing the name of the methods, e.g., `["pgvae", "rwr", "cem-pi", "dbas", "cbas"]`
    * `"weighted_opt_firststeps"` if false the first MBO step uses uniform nonzero weights in weighted optimization as done in CbAS paper. If True, weighted
-     optimization with non-uniform weights is performed in the first step as well. Leave this as `[false]`.
+     optimization with non-uniform weights is performed in the first step as well. Both CbAS and PPGVAE run with `false`. Leave this as `[false]` for simplicity.
    *  `"n_samples_gen"` is a list containing the integer number of samples generated per MBO step.
    *  `"vae_type"` is a string specifying the type of VAE. This should be set to `"mlp"` for all experiments in the paper.
-   *  `"n_seeds"` is the number of models to be trained in parallel, each leading to a different chain of samples generated from MBO. See **"Stacked Model and Data Training"** for more details.
-
+   *  `"n_seeds"` determines the number of models to be trained in parallel, each leading to a different chain of samples generated from MBO. See **"Stacked Model and Data Training"** for more details.
+   *  `"mbo_steps"` is the number of MBO steps performed.
    
    </details>
    
