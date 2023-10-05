@@ -18,6 +18,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
    To download the datasets used to create the oracles, and generate train sets at varying separation and imbalance ratios, 
    run `./datasets/download.sh`. The downloaded files will be `./datasets/aav.csv`, `./datasets/GB1.txt`, `./datasets/PhoQ.txt`, and `pinn_poisson.npz`.
+   AAV dataset was retreived from https://benchmark.protein.properties/landscapes.
    
     </details>
 
