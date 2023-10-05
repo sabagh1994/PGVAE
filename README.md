@@ -94,7 +94,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
    * `"description"` is the notes about the configuration file or whatever notes you want to keep for the configuration you are using.
    * `"ds_rootdir"` the root directory containing the train sets.
-   * `"ds_names"` is a list containing the file names for the train sets.
+   * `"ds_names"` is a list containing the file names for the train sets. A single train set `ds_name` is read from `ds_rootdir/ds_name`.
    * `"method_names"` is a list containing the name of the methods, e.g., `["pgvae", "rwr", "cem-pi", "dbas", "cbas"]`
    * `"weighted_opt_firststeps"` if false the first MBO step uses uniform nonzero weights in weighted optimization as done in CbAS paper. If True, weighted
      optimization with non-uniform weights is performed in the first step as well. Both CbAS and PPGVAE run with `false`. Leave this as `[false]` for simplicity.
@@ -113,7 +113,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
 + <details open>
   <summary><strong>Train Set Format</strong></summary>
-    .....
+    Train sets are stored in `*.npz` format. Each file consists of three fields `x`, `y`, and `orc_spec`. Both `x` and `y` are numpy arrays containing the samples from the design space and their associated properties.
   </details>
    
 + <details>
