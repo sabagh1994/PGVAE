@@ -40,10 +40,13 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    Navigate to `notebooks` folder and run the jupyter notebook `ds_generator.ipynb`. This will create,
    
     1. Train sets for semi-synthetic GB1 and PhoQ, AAV, PINN and GMM benchamrk tasks, at varying imbalance ratios and separation levels.
-    2. Oracles used for protein benchmark tasks.
-   Oracles will be stored in `oracles` directory, and train sets will be stored at a separate folder for each benchmark task in `sample_trainset` directory.
-   Note that GMM and PINN won't have any oracles stored. GMM oracle can be constructed with its parameter specification which is stored within each instance of
-   train set, e.g., `sample_trainset/gmm/ds0.npz`. PINN oracle is generated from `datasets/pinn_poisson.npz` when its instance is created in `scripts/run_mbo.py` script.
+       Train sets will be stored at a separate folder for each benchmark task in `sample_trainset` directory.
+    2. Oracles used for protein benchmark tasks. Oracles will be stored in `oracles` directory including `oracles/protein_aav`, `oracles/protein_gb_synth`, and `oracles/protein_phoq_synth`  
+   
+   **Note 1:** GMM and PINN won't have any oracles stored. GMM oracle can be constructed with its parameter specification, which is stored within each instance of
+   train set, e.g., `sample_trainset/gmm/ds0.npz`. PINN oracle is generated from `datasets/pinn_poisson.npz` when its instance is created in `scripts/run_mbo.py`. \
+   **Note 2:** For semi-synthetic GB1 and PhoQ datasets, train sets and oracles are generated with appended length of three corresponding to the lowest separation. For higher
+   separation, set the variable `ext_len` to higher integer values (default 3) in `notebooks/ds_generator.ipynb`.
     
     </details>
 
