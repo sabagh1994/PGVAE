@@ -126,6 +126,6 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 <details>
 <summary><h2>Stacked Model and Data Training</h2></summary>
-   Stacked model and data training was first used in (firth github). Brief explanation. Mention tch_utils. Please cite if you use ... for your research.
+   Stacked model and data training was first used in (firth github). Brief explanation. Mention tch_utils. Please cite (these paper or githubs) if you use ... for your research.
 </details>
 
