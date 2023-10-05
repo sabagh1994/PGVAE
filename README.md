@@ -32,3 +32,15 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
     3. Run `source venv/bin/activate` to activate the venv
     </details>
 
++  <details>
+   <summary><strong>Generating the Train Sets and Oracles</strong></summary>
+   
+   For each benchmark task, trains sets and oracles should be generated before running MBO. Note that
+   this step requires the datasets included in the `datasets` folder.
+   Navigate to `notebooks` folder and run the jupyter notebook `ds_generator.ipynb`. This will create,
+   
+    1. Train sets for semi-synthetic GB1 and PhoQ, AAV, PINN and GMM benchamrk tasks, at varying imbalance ratios and separation levels.
+    2. Oracles used for protein benchmark tasks. 
+    
+    </details>
+
