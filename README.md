@@ -60,7 +60,8 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
       ```bash
       python scripts/run_mbo.py --run_config configs/run_config.json &> log_mbo
       ```
-   This runs 10 MBO steps using PPGVAE on the example GMM train set located at `sample_trainset/ds0.npz`.
+   This runs 10 MBO steps using PPGVAE on the example GMM train set located at `sample_trainset/ds0.npz`. The results will be stored at `results/ds0/*.pt`.
+   Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task .
     </details>
 
 </details>
@@ -74,18 +75,17 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    An example of the configuration file to `configs/run_config.json` is,
    ```json
    {
-    "description": "settings for preprocessing (e.g. transformation), input and output directories.",
-    "transformation": "log",
-    "marker_type": "all",
-    "naive_marker_FC": 2.0,
-    "marker_dir": null,
-    "normalization": "mean",
-    "ref_sig_dir": "./input/signatures/pancreas/Baron/Baron",
-    "org_sig_dir": null,
-    "mix_dir": "./input/mixtures/pancreas/emtab_d",
-    "org_prop_dir": null,
-    "outdir": "./results/emtabd/Baron"
-   }
+       "description": "sample config file to run MBO with ppgvae or other methods",
+       "ds_rootdir": "sample_trainset",
+       "ds_names": ["ds0.npz"],
+       "method_names": ["pgvae"],
+       "weighted_opt_firststeps": [false],
+       "n_samples_gens": [100],
+       "savedir": "results",
+       "vae_type": "mlp",
+       "n_seeds": 10,
+       "mbo_steps": 10
+   }   
    ```
    </details>
  
@@ -93,13 +93,39 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
   <summary><strong>Description of the Arguments</strong></summary>
    
    * `"description"` is the notes about the configuration file or whatever notes you want to keep for the configuration you are using.
-   
-   * `"transformation"` is the type of transformation applied to the reference signatures and bulk expression profiles as a preprocessing step
-       before running BEDwARS. **This argument should be set to `"log"`**. The current version of the code does not support other transformations. 
-       All the benchmarking experiments used "log" transformation.
+   * `"ds_rootdir"` the root directory containing the train sets.
+   * `"ds_names"` is a list containing the file names for the train sets.
+   * `"method_names"` is a list containing the name of the methods, e.g., "pgvae", "rwr", "cem-pi", "dbas", "cbas"
+   * `"weighted_opt_firststeps"` if false the first MBO step uses uniform nonzero weights in weighted optimization as done in CbAS paper. If True, weighted
+     optimization with non-uniform weights is performed in the first step as well. Leave this as `[false]`.
+   *  `"n_samples_gen"` is a list containing the integer number of samples generated per MBO step.
+   *  `"vae_type"` is a string specifying the type of VAE. This should be set to `"mlp"` for all experiments in the paper.
+   *  `"n_seeds"` is the number of models to be trained in parallel, each leading to a different chain of samples generated from MBO. See **"Stacked Model and Data Training"** for more details.
 
    
    </details>
    
+</details>
+
+
+<details>
+<summary><h2>Train Set and Output Format</h2></summary>
+   
++ <details open>
+  <summary><strong>Train Set Format</strong></summary>
+    .....
+  </details>
+   
++ <details>
+  <summary><strong>Output Format</strong></summary>
+  ....
+  </details>
+
+</details>
+
+
+<details>
+<summary><h2>Stacked Model and Data Training</h2></summary>
+   Stacked model and data training was first used in (firth github). Brief explanation. Mention tch_utils. Please cite if you use ... for your research.
 </details>
 
