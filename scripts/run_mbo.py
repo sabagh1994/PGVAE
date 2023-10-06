@@ -281,8 +281,8 @@ for cfg_it, cfg in enumerate(cfgs):
                          datadir=datadir, n_samples_gen=n_samples_gen, 
                          weighted_opt_firststep=weighted_opt_firststep, 
                          cfg_it=cfg_it)
-        os.makedirs(f"{savedir}/{ds_name}", exist_ok=True)
-        save_ds(ds.dsall, f"{savedir}/{ds_name}/rs{cfg_it}.pt", **save_dict)
+        os.makedirs(f"{savedir}", exist_ok=True)
+        save_ds(ds.dsall, f"{savedir}/rs{cfg_it}.pt", **save_dict)
 
         running_loss = 0.
         # get the train set size
@@ -538,5 +538,5 @@ for cfg_it, cfg in enumerate(cfgs):
                          datadir=datadir, n_samples_gen=n_samples_gen, 
                          weighted_opt_firststep=weighted_opt_firststep, 
                          cfg_it=cfg_it)
-        os.makedirs(f"{savedir}/{ds_name}", exist_ok=True)
-        save_ds(ds.dsall, f"{savedir}/{ds_name}/rs{cfg_it}.pt", **save_dict)
+        os.makedirs(f"{savedir}", exist_ok=True)
+        save_ds(ds.dsall, f"{savedir}/rs{cfg_it}.pt", **save_dict)
