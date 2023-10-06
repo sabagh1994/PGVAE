@@ -11,5 +11,7 @@ if ! md5sum -c configs.md5; then echo "corrupted files"; fi
 
 
 tar -xzvf configs_bench.tar.gz
+cp configs_bench/* ./
 
+rm -rf configs_bench
 rm *.tar.gz
