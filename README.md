@@ -14,11 +14,14 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
     </details>
 
 +  <details>
-   <summary><strong>Download the Datasets</strong></summary>
+   <summary><strong>Download the Datasets and Configs</strong></summary>
    
    To download the datasets used to create the oracles, and generate train sets at varying separation and imbalance ratios, 
    run `./datasets/download.sh`. The downloaded files will be `./datasets/aav.csv`, `./datasets/GB1.txt`, `./datasets/PhoQ.txt`, and `pinn_poisson.npz`.
    AAV dataset was retreived from https://benchmark.protein.properties/landscapes.
+
+   To download the config files run `./configs/download.sh`. The configs will be stored at the `configs` directory. There will be a sample config for each benchmark
+   task. You can modify the config file to include more methods and train sets. Read **"Running Configuration"** for more details.
    
     </details>
 
