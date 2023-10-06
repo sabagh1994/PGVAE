@@ -114,17 +114,22 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 + <details>
   <summary><strong>Train Set Format</strong></summary>
    
-   Train sets are in `*.npz` format. Each file consists of three fields `x`, `y`, and `orc_spec`. Both `x` and `y` are numpy arrays containing the samples from the design space and their associated properties. `x` is an array of strings for protein benchmarks.`orc_spec` is a dictionary containing the oracle specifications and variables involved in train set generation. These depend on the benchmark task (gmm, pinn, aav, ...) as explained below.
+   Train sets are in `*.npz` format. Each file consists of three fields `x`, `y`, and `orc_spec`. Both `x` and `y` are numpy arrays containing the samples from the design space and      their associated properties. `x` is an array of strings for protein benchmarks.`orc_spec` is a dictionary containing the oracle specifications and variables involved in train set     generation. These depend on the benchmark task (gmm, pinn, aav, ...) as explained below.
   1) In GMM `orc_spec` consists of
      * `"mu_1st"` mean of the first Gaussian mode (less desired mode)
-     * `"mu_2nd"` mean of the second Gaussian mode (more desired mode)
+     * `"mu_2nd"` mean of the second Gaussian mode (more desired mode). Specifies the extent of separation as `"mu_1st"` is set to zero.
      * `"ro"` imbalance ratio between the less desired and more desired train samples.
      * `"data_type"` type of the benchmark task, i.e., `"gmm"`
      * `"sigmas_gmm"` numpy array containing the standard deviations for the two modes.
      * `"weights"` peak height of each Gaussian mode.
      * `"N1"` number of training samples taken from the less desired mode.
      * `"N"` size of the train set.
-   2) In AAV `orc_spec` consists of
+  2) In AAV `orc_spec` consists of
+     * `"mut_thr"` an integer indicating the minimum number of mutated sites in less desired samples. Specifies the extent of separation.
+     * `"ro"` imbalance ratio
+     * `"data_type"` type of the benchmark task, i.e., `"protein"`
+     * `"N"` size of the train set.
+     * `"orc_path"` path to the oracle.
   </details>
    
 + <details>
