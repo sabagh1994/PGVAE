@@ -65,7 +65,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
       python scripts/run_mbo.py --run_config configs/run_config.json &> log_mbo
       ```
    This runs 10 MBO steps using PPGVAE on the example GMM train set located at `sample_trainset/ds0.npz`. The results will be stored at `results/ds0/*.pt`.
-   Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task .
+   Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task.
     </details>
 
 </details>
