@@ -134,7 +134,8 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
 + <details>
   <summary><strong>Output Format</strong></summary>
-  ....
+   
+   ....
   </details>
 
 </details>
