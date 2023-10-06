@@ -134,6 +134,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
      * `"data_type"` type of the benchmark task, i.e., `"protein"`
      * `"N"` size of the train set.
      * `"orc_path"` path to the oracle.
+  3) semi-synthetic GB1 and PhoQ, have the same `orc_spec` as the AAV, with the exclusion of `mut_thr`.
   </details>
    
 + <details>
