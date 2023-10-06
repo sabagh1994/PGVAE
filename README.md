@@ -18,7 +18,8 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
    To download the datasets used to create the oracles, and generate train sets at varying separation and imbalance ratios, 
    run `./datasets/download.sh`. The downloaded files will be `./datasets/aav.csv`, `./datasets/GB1.txt`, `./datasets/PhoQ.txt`, and `pinn_poisson.npz`.
-   AAV dataset was retreived from https://benchmark.protein.properties/landscapes.
+   AAV dataset was retreived from https://benchmark.protein.properties/landscapes. PINN dataset was originally generated in experiments of https://arxiv.org/abs/2305.17387,
+   however the `.npz` format can only be accessed from here.
 
    To download the config files run `./configs/download.sh`. The configs will be stored at the `configs` directory. There will be a sample config for each benchmark
    task. You can modify the config file to include more methods and train sets. Read **"Running Configuration"** for more details.
@@ -64,7 +65,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
       python scripts/run_mbo.py --run_config configs/run_config.json &> log_mbo
       ```
    This runs 10 MBO steps using PPGVAE on the example GMM train set located at `sample_trainset/ds0.npz`. The results will be stored at `results/ds0/*.pt`.
-   Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task .
+   Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task.
     </details>
 
 </details>
@@ -112,7 +113,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 
 <details>
-<summary><h2>Train Set and Output Format</h2></summary>
+<summary><h2>Train Set and Output Formats</h2></summary>
 
 + <details>
   <summary><strong>Train Set Format</strong></summary>
@@ -133,12 +134,29 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
      * `"data_type"` type of the benchmark task, i.e., `"protein"`
      * `"N"` size of the train set.
      * `"orc_path"` path to the oracle.
+  3) semi-synthetic GB1 and PhoQ, have the same `orc_spec` as the AAV, with the exclusion of `mut_thr`.
   </details>
    
 + <details>
   <summary><strong>Output Format</strong></summary>
-   
-   ....
+
+   Outputs are in `*.pt` format. The output dictionary consists of the following fields,
+  * `x` is a `torch.tensor` with shape `(n_seeds, N_total, dim_rest)`. `dim_rest` varies depending on the type of dataset. For one-hot encoded
+    protein sequences `dim_rest = (sequence length, number of amino acids)`. For the gmm dataset `dim_rest = 1`
+  * `y` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the property (fitness) values.
+  * `w_optm` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the optimization weights. This is `None` for PPGVAE as it does not
+    perform weighted optimization.
+  * `step` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the MBO step values.
+  * `orc_spec` is a dictionary containing oracle specifications and variables used for train set generation, as explained in **"Train Set Format"**.
+  * `method_name` is a string specifying the method used for MBO, e.g., `"pgvae", "rwr", "cem-pi"`.
+  * `n_samples_gen` is the integer number of samples generated per MBO step.
+  * `weighted_opt_firststep` is a bool determining whether non-uniform weighted optimization was used in the first MBO step. This was set to
+    `false` in all experiments of the paper.
+  * `datadir` is the path to the train set.
+    
+  `n_seeds` is the number of models ran in parallel to perform MBO with different seeds. \
+  `N_total` is the total number of samples generated in MBO which is equivalent to the number of MBO steps times the number of samples generated per MBO step.  
+
   </details>
 
 </details>
