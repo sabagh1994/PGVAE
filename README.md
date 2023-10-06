@@ -112,7 +112,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 
 <details>
-<summary><h2>Train Set and Output Format</h2></summary>
+<summary><h2>Train Set and Output Formats</h2></summary>
 
 + <details>
   <summary><strong>Train Set Format</strong></summary>
