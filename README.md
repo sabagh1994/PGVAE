@@ -137,8 +137,24 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    
 + <details>
   <summary><strong>Output Format</strong></summary>
-   
-   ....
+
+   Outputs are in `*.pt` format. The output dictionary consists of the following fields,
+  * `x` is a `torch.tensor` with shape `(n_seeds, N_total, dim_rest)`. `dim_rest` varies depending on the type of dataset. For one-hot encoded
+    protein sequences `dim_rest = (sequence length, number of amino acids)`. For the gmm dataset `dim_rest = 1`
+  * `y` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the property (fitness) values.
+  * `w_optm` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the optimization weights. This is `None` for PPGVAE as it does not
+    perform weighted optimization.
+  * `step` is a `torch.tensor` with shape `(n_seeds, N_total)` containing the MBO step values.
+  * `orc_spec` is a dictionary containing oracle specifications and variables used for train set generation, as explained in **"Train Set Format"**.
+  * `method_name` is a string specifying the method used for MBO, e.g., `"pgvae", "rwr", "cem-pi"`.
+  * `n_samples_gen` is the integer number of samples generated per MBO step.
+  * `weighted_opt_firststep` is a bool determining whether non-uniform weighted optimization was used in the first MBO step. This was set to
+    `false` in all experiments of the paper.
+  * `datadir` is the path to the train set.
+    
+  `n_seeds` is the number of models ran in parallel to perform MBO with different seeds. \
+  `N_total` is the total number of samples generated in MBO which is equivalent to the number of MBO steps times the number of samples generated per MBO step.  
+
   </details>
 
 </details>
