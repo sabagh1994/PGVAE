@@ -192,7 +192,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    1. BEDwARS: a robust Bayesian approach to bulk gene expression deconvolution with noisy reference signatures (https://github.com/sabagh1994/BEDwARS)
    2. Learning from Integral Losses in Physics Informed Neural Networks (https://github.com/ehsansaleh/btspinn)
 
-   **If you use our implementation in your work, please Firth Bias Reduction paper (https://arxiv.org/abs/2110.02529) or this study.**
+   **If you use our implementation in your work, please cite Firth Bias Reduction paper (https://arxiv.org/abs/2110.02529) or this study.**
 </details>
 
 ## References
