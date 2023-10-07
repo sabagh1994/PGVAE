@@ -68,6 +68,22 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task.
     </details>
 
++  <details>
+   <summary><strong>Summarizing the Results</strong></summary>
+   
+   After running MBO for each benchmark task, there will be multiple `*.pt` files in the `results` directory. To compute various statistics,
+   e.g., maximum property relative to train/initial set, for the generated samples from MBO, run summary notebooks in the `notebooks` directory, e.g., `summary_gmm.ipynb` summarizes
+   the results for the GMM benchmark. In each summary notebook, the following three dataframes are constructed and saved in the `summary` directory.
+   1) `df_stats` each row represents a unique configuration of (imbalance ratio, separation level, seed number, method name, MBO step). Various statistics
+       are computed for each unique configuration.
+   2) `df_bs` contains the statistics computed in (1) as well as their 95% bootstrap confidence intervals for each unique configuration of
+      (imbalance ratio, separation level, method name, MBO step). Note that "seed number" is not in the configuration. This dataframe was used
+      to study the impact of varying imbalance for a given separation level in each benchmark task.
+   3) `df_bsg` contains the statistics computed in (1) as well as their 95% bootstrap confidence intervals for each unique configuration of
+      (separation level, method name, MBO step). Note that both "seed number" and "imbalance ratio" are not in the configuration. This dataframe was used
+      to generate the plots representing the impact of separation level aggragated over all imbalance ratios.
+    </details>
+
 </details>
 
 <details>
@@ -123,7 +139,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
      * `"mu_1st"` mean of the first Gaussian mode (less desired mode)
      * `"mu_2nd"` mean of the second Gaussian mode (more desired mode). Specifies the extent of separation as `"mu_1st"` is set to zero.
      * `"ro"` imbalance ratio between the less desired and more desired train samples.
-     * `"data_type"` type of the benchmark task, i.e., `"gmm"`
+     * `"data_type"` type of the benchmark task, i.e., `"gmm", "protein", "pinn"`. This affects the initialization of `Dataset` object in `run_mbo.py`
      * `"sigmas_gmm"` numpy array containing the standard deviations for the two modes.
      * `"weights"` peak height of each Gaussian mode.
      * `"N1"` number of training samples taken from the less desired mode.
