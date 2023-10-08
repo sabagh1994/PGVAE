@@ -3,6 +3,9 @@
 This repository contains the implementation for **<ins>P</ins>roperty-<ins>P</ins>rioritized <ins>G</ins>eneraive <ins>V</ins>ariational <ins>A</ins>uto <ins>E</ins>ncoder (PPGVAE)**.
 Model-based optimization with PPGVAE robustly finds improved samples regardless of 1) the imbalance between low- and high-fitness training samples, and 2) the extent of their separation in the design space. MBO with our PPGVAE can be used for both discrete and continuous design spaces. Details of our comprehensive benchmark are covered in the following. 
 
+![image](https://github.com/sabagh1994/PGVAE/assets/33433428/551dccb8-15a8-4f44-b590-e4dd4266cf23)
+
+
 <details open>
 <summary><h2>Guide to MBO with PPGVAE</h2></summary>
 
@@ -68,6 +71,22 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    Read **"Train Set and Output Format"** for the contents of train set `*.npz` and output `*.pt`, for each benchmark task.
     </details>
 
++  <details>
+   <summary><strong>Summarizing the Results</strong></summary>
+   
+   After running MBO for each benchmark task, there will be multiple `*.pt` files in the `results` directory. To compute various statistics,
+   e.g., maximum property relative to train/initial set, for the generated samples from MBO, run summary notebooks in the `notebooks` directory, e.g., `summary_gmm.ipynb` summarizes
+   the results for the GMM benchmark. In each summary notebook, the following three dataframes are constructed and saved in the `summary` directory.
+   1) `df_stats` each row represents a unique configuration of (imbalance ratio, separation level, seed number, method name, MBO step). Various statistics
+       are computed for each unique configuration.
+   2) `df_bs` contains the statistics computed in (1) as well as their 95% bootstrap confidence intervals for each unique configuration of
+      (imbalance ratio, separation level, method name, MBO step). Note that "seed number" is not in the configuration. This dataframe was used
+      to study the impact of varying imbalance for a given separation level in each benchmark task.
+   3) `df_bsg` contains the statistics computed in (1) as well as their 95% bootstrap confidence intervals for each unique configuration of
+      (separation level, method name, MBO step). Note that both "seed number" and "imbalance ratio" are not in the configuration. This dataframe was used
+      to generate the plots representing the impact of separation level aggragated over all imbalance ratios.
+    </details>
+
 </details>
 
 <details>
@@ -123,7 +142,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
      * `"mu_1st"` mean of the first Gaussian mode (less desired mode)
      * `"mu_2nd"` mean of the second Gaussian mode (more desired mode). Specifies the extent of separation as `"mu_1st"` is set to zero.
      * `"ro"` imbalance ratio between the less desired and more desired train samples.
-     * `"data_type"` type of the benchmark task, i.e., `"gmm"`
+     * `"data_type"` type of the benchmark task, i.e., `"gmm", "protein", "pinn"`. This affects the initialization of `Dataset` object in `run_mbo.py`
      * `"sigmas_gmm"` numpy array containing the standard deviations for the two modes.
      * `"weights"` peak height of each Gaussian mode.
      * `"N1"` number of training samples taken from the less desired mode.
@@ -164,6 +183,30 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 <details>
 <summary><h2>Stacked Model and Data Training</h2></summary>
-   Stacked model and data training was first used in (firth github). Brief explanation. Mention tch_utils. Please cite (these paper or githubs) if you use ... for your research.
+   
+   The entire training pipeline, including the models, the data, and the random number generators, were stacked along a first dimension across multiple indpendent runs. This allows our code to efficiently run     many independent instances in parallel on a single GPU device. For further details, you can check the BMLP and BatchRNG classes in the `tch_utils.py` script. 
+
+   Note that the shape of most tensors in our implementation starts with a `(n_seeds, ...)` prefix, where n_seeds is the number of independent runs specified in the input config files. 
+   This approach was first implemented in "On the Importance of Firth Bias Reduction in Few-Shot Classification (https://github.com/ehsansaleh/firth_bias_reduction)"
+   and used in the following two studies as well,
+   1. BEDwARS: a robust Bayesian approach to bulk gene expression deconvolution with noisy reference signatures (https://github.com/sabagh1994/BEDwARS)
+   2. Learning from Integral Losses in Physics Informed Neural Networks (https://github.com/ehsansaleh/btspinn)
+
+   **If you use our implementation in your work, please cite Firth Bias Reduction paper (https://arxiv.org/abs/2110.02529) or this study.**
 </details>
 
+## References
+
+* The bioRxiv link to the paper:
+  * PDF link: https://browse.arxiv.org/pdf/2305.13650v2.pdf
+  * Web-page link: https://arxiv.org/abs/2305.13650v2
+
+* Here is the bibtex citation entry for our work:
+```
+@article{ghaffari2023,
+  title={Robust Model-Based Optimization for Challenging Fitness Landscapes},
+  author={Ghaffari, Saba and Saleh, Ehsan and Schwing, Alexander G and Wang, Yu-Xiong and Burke, Martin D and Sinha, Saurabh},
+  journal={arXiv preprint arXiv:2305.13650v2},
+  year={2023}
+}
+```
