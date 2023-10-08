@@ -317,10 +317,10 @@ def get_unique_quantile(y_ds, unq_mask, q, tch_device):
         y_tr = y_ds*unq_mask # unique train scores (y)
         assert y_tr.shape == (ns, xs)
 
-        #y_target = torch.quantile(y_tr, q=.99, dim=-1) # attention: for agvae this should be only unique samples (fix later)
+        #y_target = torch.quantile(y_tr, q=.99, dim=-1) # attention: for pgvae this should be only unique samples (fix later)
         #assert y_target.shape == (n_seeds,)
 
-        # computing the quantile of train activity scores for agvae sampling
+        # computing the quantile of train activity scores for pgvae sampling
         # this is done by computing weighted cdf of the train data
         idx = torch.argsort(y_tr, dim=-1)
 
@@ -367,7 +367,7 @@ class Dataset():
                  dtype=torch.float32, device=None, 
                  split_rng=None, batch_rng=None, 
                  split_ratios=[0.8,0.1,0.1], 
-                 add_w_optm=None, name="", max_hist=None):
+                 add_w_optm=None, name="", max_hist=None, shuffle=True):
         """
             load the protein dataset from datadir
             data consists of protein sequences and their 
@@ -389,7 +389,7 @@ class Dataset():
         self.dsall = self.create_ds(data, add_w_optm, step=-1) # setting self.dsall
         
         # shuffle self.dsall
-        if True:
+        if shuffle:
             ns, xs, *xd = self.dsall["x"].shape
             urv = self.batch_rng.uniform(sample_shape=(ns, xs))
             urv = torch.broadcast_to(urv, (ns, xs))
@@ -424,7 +424,7 @@ class Dataset():
     def ds(self):
         """
             this is intended for the methods that
-            work with a subset of dsall unlike agvae
+            work with a subset of dsall unlike pgvae
         """
         dssub = {}
         for k in self.dsall.keys():
@@ -522,6 +522,9 @@ class Dataset():
                 org_shape = x.shape
                 x = x.reshape((1, *org_shape))
                 x = np.broadcast_to(x, (self.n_seeds, *org_shape))
+            if x.dtype == np.uint8:
+                print("np.uint8 dtype for x")
+                x = x/255
             x_enc_dict = {"x": x}
         return x_enc_dict
     
@@ -704,7 +707,7 @@ class Dataset():
         for k in self.ds.keys():
             v = self.ds[k]
             if (v is None):
-                batch_dict[k] = None # optm_w is None for agvae
+                batch_dict[k] = None # optm_w is None for pgvae
                 continue
 
             ns, n_ds, *vd = v.shape

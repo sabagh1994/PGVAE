@@ -10,6 +10,7 @@ import itertools
 
 from tch_utils import BatchRNG, BMLP
 from ds_utils import Dataset, save_ds, get_unique_quantile
+from mbo_utils import weight_generator
 from pgvae import copy_module, loss_function, \
                   forward, sample_comprehensive
 
