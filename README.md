@@ -92,6 +92,14 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 </details>
 
++  <details>
+   <summary><strong>Toy MNIST Example</strong></summary>
+   
+   Run `notebooks/mnist_demo.ipynb` to train PPGVAE and visualize its latent space on the toy MNIST example. The config for this notebook is located at `configs/mnist_config.json`.
+   </details>
+
+</details>
+
 <details>
 <summary><h2>Running Configuration</h2></summary>
 
