@@ -24,6 +24,9 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    AAV dataset was retreived from https://benchmark.protein.properties/landscapes. PINN dataset was originally generated in experiments of https://arxiv.org/abs/2305.17387,
    however the `.npz` format can only be accessed from here.
 
+   In addition to the protein and pinn datasets, the train set for the toy mnist example `toy_mnist.npz` will be downloaded and moved to `sample_trainset` directory. This is to
+   avoid downloading MNIST and creating the train set from it. Train sets for other datasets will be generated later. Read **"Generating the Train Sets and Oracles"** for further details.
+
    To download the config files run `./configs/download.sh`. The configs will be stored at the `configs` directory. There will be a sample config for each benchmark
    task. You can modify the config file to include more methods and train sets. Read **"Running Configuration"** for more details.
    
