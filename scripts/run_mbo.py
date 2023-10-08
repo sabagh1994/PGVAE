@@ -15,7 +15,7 @@ from pgvae import copy_module, loss_function, \
                   forward, sample_comprehensive
 
 
-use_argparse = False
+use_argparse = True
 if use_argparse:
     import argparse
     parser = argparse.ArgumentParser()
