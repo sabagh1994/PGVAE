@@ -206,7 +206,7 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
    **If you use our implementation in your work, please cite Firth Bias Reduction paper (https://arxiv.org/abs/2110.02529) or this study.**
 </details>
 
-<!---## References
+## References
 
 * The bioRxiv link to the paper:
   * PDF link: https://browse.arxiv.org/pdf/2305.13650v2.pdf
@@ -221,4 +221,3 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
   year={2023}
 }
 ```
--->
