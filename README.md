@@ -208,6 +208,8 @@ Model-based optimization with PPGVAE robustly finds improved samples regardless 
 
 ## References
 
+Openreview [link](https://openreview.net/forum?id=xhEN0kJh4q&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2024%2FConference%2FAuthors%23your-submissions)) to the paper accepted to ICLR 2024. 
+
 * The bioRxiv link to the paper:
   * PDF link: https://browse.arxiv.org/pdf/2305.13650v2.pdf
   * Web-page link: https://arxiv.org/abs/2305.13650v2
