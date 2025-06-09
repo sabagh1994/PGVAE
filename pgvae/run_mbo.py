@@ -395,7 +395,7 @@ for cfg_it, cfg in enumerate(cfgs):
             assert x_tr.shape == (ns, xs, *xdf)
 
             if method_name == "pgvae":
-                #y_tr = ds.ds["y"][:, ds.train_inds] # attention: for agvae this should be only unique samples
+                #y_tr = ds.ds["y"][:, ds.train_inds] # attention: for pgvae this should be only unique samples
                 y_ds = ds.ds["y"]
                 assert y_ds.shape == (ns, xs)
                 y_target = get_unique_quantile(y_ds, tr_unq_mask, 0.99, tch_device)
@@ -485,7 +485,7 @@ for cfg_it, cfg in enumerate(cfgs):
         global_iter = global_iter + 1
 
         # updating max_hist
-        ds.max_hist = None if method_name == "agvae" else n_samples_gen
+        ds.max_hist = None if method_name == "pgvae" else n_samples_gen
 
         # update the train/val/test splits for the next round of training
         ds.split(split_ratios)
@@ -495,7 +495,7 @@ for cfg_it, cfg in enumerate(cfgs):
         ##############################################
 
         # Report Quantile 
-        # agvae: all the samples generated so far 
+        # pgvae: all the samples generated so far 
         # other methods: the most recent generated samples
         y_ds = ds.ds["y"]
         (ns, xs) = y_ds.shape
@@ -515,7 +515,7 @@ for cfg_it, cfg in enumerate(cfgs):
         #print(y_q100)
 
         #####################################################
-        ### instatntiate a new generative model for agvae ###
+        ### instatntiate a new generative model for pgvae ###
         #####################################################
 
         if method_name == "pgvae":
