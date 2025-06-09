@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import pandas as pd
 
+from pgvae.encoding_utils import convert_idx_to_aas
 
 class Oracle_protein_gt():
     def __init__(self, orc_path=None, seq_len=None, 
