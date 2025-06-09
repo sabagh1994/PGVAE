@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 from pgvae.tch_utils import BMLP
 
 # for sampling

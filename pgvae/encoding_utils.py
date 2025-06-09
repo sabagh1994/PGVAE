@@ -55,7 +55,7 @@ def index_encoding(sequences, letter_to_index_dict):
 
     df = pd.DataFrame(iter(s) for s in sequences)
     encoding = df.replace(letter_to_index_dict)
-    encoding = encoding.values.astype(np.int)
+    encoding = encoding.values.astype(np.int64)
     return encoding
 
 def vector_encoding(sequences, letter_to_vector_df):
