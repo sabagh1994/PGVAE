@@ -13,3 +13,5 @@ venv:
 	        --extra-index-url https://download.pytorch.org/whl/cu116
 	source venv/bin/activate && python -m pip install gdown
 	source venv/bin/activate && python -m pip install -r requirements.txt
+	source venv/bin/activate && python -m pip install -e .
+	rm -rf *.egg-info

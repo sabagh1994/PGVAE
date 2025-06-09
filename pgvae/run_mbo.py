@@ -8,11 +8,10 @@ import pandas as pd
 import json
 import itertools
 
-from tch_utils import BatchRNG, BMLP
-from ds_utils import Dataset, save_ds, get_unique_quantile
-from mbo_utils import weight_generator
-from pgvae import copy_module, loss_function, \
-                  forward, sample_comprehensive
+from pgvae.tch_utils import BatchRNG, BMLP
+from pgvae.mbo_utils import weight_generator
+from pgvae.ds_utils import Dataset, save_ds, get_unique_quantile
+from pgvae.pgvae import copy_module, loss_function, forward, sample_comprehensive
 
 
 use_argparse = True

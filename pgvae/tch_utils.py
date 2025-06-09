@@ -17,9 +17,10 @@
 # ## PyTorch Utilities
 
 # %% code_folding=[5, 12, 42, 373]
-import numpy as np
 import torch
+import numpy as np
 from torch import nn
+
 import gc
 import warnings
 from collections import defaultdict

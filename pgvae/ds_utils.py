@@ -2,7 +2,7 @@
 import os
 import torch
 import numpy as np
-from encoding_utils import encode_sequence, convert_idx_to_aas
+from pgvae.encoding_utils import encode_sequence, convert_idx_to_aas
 
 
 # functions required for duplicated samples in the dataset:
